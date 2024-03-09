@@ -266,6 +266,10 @@ __attribute__((weak)) bool achordion_chord(uint16_t tap_hold_keycode,
     return true;
   }
 
+  if (other_record->event.key.row == 5 || other_record->event.key.row == 11) {
+    return true;
+  }
+
   if (tap_hold_keycode == MT(MOD_LCTL, KC_Z)) {
     if (other_keycode == KC_C || other_keycode == KC_R || other_keycode == KC_D || other_keycode == KC_V) {
       return true;
