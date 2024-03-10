@@ -5,15 +5,15 @@
 
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
-  ST_MACRO_0,
-  ST_MACRO_1,
-  ST_MACRO_2,
-  ST_MACRO_3,
-  ST_MACRO_4,
+  ST_MACRO_SEARCH,
+  ST_MACRO_GOOGLE,
+  ST_MACRO_GOLINK,
+  ST_MACRO_DICT,
+  ST_MACRO_CUR_INTELLIJ,
+  ST_MACRO_IN_NEW_TAB,
   MAC_MISSION_CONTROL,
+  //ST_MACRO_SQL_SELECT,
 };
-
-
 
 enum tap_dance_codes {
   DANCE_0,
@@ -30,46 +30,55 @@ enum tap_dance_codes {
   DANCE_11,
 };
 
+enum LAYERS {
+    MAIN,
+    NAVIGATION,
+    SYMBOLS,
+    CONTROLS,
+    INTELLIJ,
+    MACROS,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [0] = LAYOUT_voyager(
+  [MAIN] = LAYOUT_voyager(
     LGUI(LCTL(LSFT(KC_4))),KC_1,    KC_2,           KC_3,           KC_4,           KC_5,                                           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           QK_LEAD,        
     KC_ESCAPE,      KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           TD(DANCE_0),    
-    TT(1),          KC_A,           KC_S,           MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F),KC_G,                                     KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),KC_L,     KC_SCLN,        LGUI(KC_SPACE), 
+    TT(NAVIGATION), KC_A,           KC_S,           MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F),KC_G,                                     KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),KC_L,     KC_SCLN,        LGUI(KC_SPACE), 
     KC_LEFT_SHIFT,  MT(MOD_LCTL, KC_Z),KC_X,        KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         MT(MOD_RCTL, KC_SLASH),KC_RIGHT_SHIFT, 
-                                                    MT(MOD_LGUI, KC_BSPC),LT(4,KC_ENTER),                                 LT(3,KC_TAB),   LT(2,KC_SPACE)
+                                                    MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ,KC_ENTER),                                 LT(CONTROLS,KC_TAB),   LT(SYMBOLS,KC_SPACE)
   ),
-  [1] = LAYOUT_voyager(
+  [NAVIGATION] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,                                          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
-    KC_TRANSPARENT, KC_MS_WH_LEFT,  KC_MS_BTN1,     KC_MS_UP,       KC_MS_BTN2,     KC_MS_WH_RIGHT,                                 LGUI(KC_LEFT),  KC_END,         KC_HOME,        LGUI(KC_RIGHT), KC_NO,          KC_F12,         
-    KC_TRANSPARENT, LGUI(KC_A),     KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_UP,                                    KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ST_MACRO_0,     KC_TRANSPARENT, 
-    KC_TRANSPARENT, LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     TD(DANCE_1),    KC_MS_WH_DOWN,                                  LALT(KC_LEFT),  KC_PGDN,        KC_PAGE_UP,     LALT(KC_RIGHT), KC_NO,          KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_IN_NEW_TAB,                            LGUI(KC_LEFT),  KC_END,         KC_HOME,        LGUI(KC_RIGHT), KC_NO,          KC_F12,         
+    KC_TRANSPARENT, LGUI(KC_A),     KC_TRANSPARENT, ST_MACRO_DICT,  ST_MACRO_SEARCH,ST_MACRO_GOOGLE,                                KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     TD(DANCE_1),    ST_MACRO_GOLINK,                                LALT(KC_LEFT),  KC_PGDN,        KC_PAGE_UP,     LALT(KC_RIGHT), KC_NO,          KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
-  [2] = LAYOUT_voyager(
+  [SYMBOLS] = LAYOUT_voyager(
     KC_TILD,        KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,                                          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
     KC_TRANSPARENT, KC_EXLM,        KC_AT,          KC_HASH,        KC_DLR,         KC_PERC,                                        KC_CIRC,        KC_AMPR,        KC_ASTR,        KC_LPRN,        KC_RPRN,        KC_F12,         
     QK_LLCK,        KC_GRAVE,       KC_QUOTE,       TD(DANCE_2),    KC_PLUS,        KC_LBRC,                                        KC_RBRC,        KC_MINUS,       TD(DANCE_4),    KC_EQUAL,       KC_COLN,        KC_DQUO,        
     KC_TRANSPARENT, TD(DANCE_3),    KC_BSLS,        KC_SLASH,       KC_TRANSPARENT, KC_LCBR,                                        KC_RCBR,        KC_TRANSPARENT, KC_LABK,        KC_RABK,        TD(DANCE_5),    KC_TRANSPARENT, 
                                                     MT(MOD_LGUI, KC_DELETE),KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
-  [3] = LAYOUT_voyager(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, RGB_SPD,        RGB_SPI,        RGB_MODE_FORWARD,                                KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, LGUI(LCTL(KC_Q)),KC_BRIGHTNESS_DOWN,LALT(LGUI(LCTL(KC_LEFT))),LGUI(LCTL(LSFT(KC_4))),LGUI(LCTL(LSFT(KC_5))),                                KC_TRANSPARENT, KC_TRANSPARENT, LALT(LGUI(LCTL(KC_RIGHT))),KC_BRIGHTNESS_UP,KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, LALT(LGUI(KC_X)),TD(DANCE_6),    LALT(LCTL(KC_LEFT)),LALT(LGUI(KC_F)),ST_MACRO_1,                                     ST_MACRO_3,     KC_TRANSPARENT, LALT(LCTL(KC_RIGHT)),TD(DANCE_7),    KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, RGB_VAD,        LCTL(KC_LEFT),  KC_TRANSPARENT, ST_MACRO_2,                                     KC_TRANSPARENT, MAC_MISSION_CONTROL,LCTL(KC_RIGHT), RGB_VAI,        KC_TRANSPARENT, KC_TRANSPARENT, 
+  [CONTROLS] = LAYOUT_voyager(
+    KC_TRANSPARENT, KC_TRANSPARENT,  KC_TRANSPARENT, KC_TRANSPARENT,     LGUI(LCTL(LSFT(KC_4))), LGUI(LCTL(LSFT(KC_5))),            KC_TRANSPARENT,             KC_TRANSPARENT,      KC_TRANSPARENT,  KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, LGUI(LCTL(KC_Q)),KC_TRANSPARENT, KC_BRIGHTNESS_DOWN, KC_TRANSPARENT,         LALT(LGUI(LCTL(KC_LEFT))),         LALT(LGUI(LCTL(KC_RIGHT))), KC_TRANSPARENT,      KC_BRIGHTNESS_UP,KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, LALT(LGUI(KC_X)),KC_TRANSPARENT, TD(DANCE_6),        LALT(LGUI(KC_F)),       LALT(LCTL(KC_LEFT)),               LALT(LCTL(KC_RIGHT)),       KC_TRANSPARENT,      TD(DANCE_7),     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT,  KC_TRANSPARENT, RGB_VAD,            KC_TRANSPARENT,         LCTL(KC_LEFT),                     LCTL(KC_RIGHT),             MAC_MISSION_CONTROL, RGB_VAI,         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
-  [4] = LAYOUT_voyager(
+  [INTELLIJ] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_F2,          KC_F7,          KC_F8,          KC_F9,                                          TD(DANCE_8),    KC_F7,          KC_F8,          TD(DANCE_9),    LSFT(KC_F10),   KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, LALT(LCTL(KC_V)),LALT(KC_F12),   LCTL(LSFT(KC_R)),LGUI(LCTL(LSFT(KC_LEFT))),                                LGUI(LCTL(LSFT(KC_RIGHT))),LALT(LCTL(LSFT(KC_V))),LALT(KC_F7),    LALT(LCTL(LSFT(KC_O))),LALT(LCTL(LSFT(KC_P))),LGUI(KC_F12),   
-    QK_LLCK,        KC_TRANSPARENT, LALT(LSFT(KC_UP)),ST_MACRO_4,     LCTL(LSFT(KC_F)),LALT(LGUI(KC_LEFT)),                                LALT(LGUI(KC_RIGHT)),LCTL(LSFT(KC_J)),TD(DANCE_10),   LALT(LGUI(KC_L)),KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, LALT(LSFT(KC_DOWN)),LALT(LGUI(KC_C)),LALT(LGUI(KC_V)),LALT(LGUI(KC_N)),                                TD(DANCE_11),   LALT(LGUI(KC_M)),LALT(LCTL(LSFT(KC_COMMA))),KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, LALT(LCTL(KC_V)),LALT(KC_F12),   LCTL(LSFT(KC_R)),LGUI(LCTL(LSFT(KC_LEFT))),                    LGUI(LCTL(LSFT(KC_RIGHT))),LALT(LCTL(LSFT(KC_V))),LALT(KC_F7),    LALT(LCTL(LSFT(KC_O))),LALT(LCTL(LSFT(KC_P))),LGUI(KC_F12),   
+    QK_LLCK,        KC_TRANSPARENT, LALT(LSFT(KC_UP)),ST_MACRO_CUR_INTELLIJ,     LCTL(LSFT(KC_F)),LALT(LGUI(KC_LEFT)),                         LALT(LGUI(KC_RIGHT)),LCTL(LSFT(KC_J)),TD(DANCE_10),   LALT(LGUI(KC_L)),KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, LALT(LSFT(KC_DOWN)),LALT(LGUI(KC_C)),LALT(LGUI(KC_V)),LALT(LGUI(KC_N)),                         TD(DANCE_11),   LALT(LGUI(KC_M)),LALT(LCTL(LSFT(KC_COMMA))),KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
-  [5] = LAYOUT_voyager(
+  [MACROS] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_W, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                            KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -173,34 +182,43 @@ bool rgb_matrix_indicators_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_achordion(keycode, record)) { return false; }
   switch (keycode) {
-    case ST_MACRO_0:
+    case ST_MACRO_SEARCH:
     if (record->event.pressed) {
-      SEND_STRING(SS_LGUI(SS_TAP(X_C)) SS_DELAY(100) SS_LGUI(SS_TAP(X_F)) SS_DELAY(100) SS_LGUI(SS_TAP(X_A)) SS_DELAY(100) SS_LGUI(SS_TAP(X_V))  SS_DELAY(100) SS_TAP(X_ENTER));
+      SEND_STRING(SS_LGUI(SS_TAP(X_C)) SS_DELAY(100) SS_LGUI(SS_TAP(X_F)) SS_DELAY(100) SS_LGUI(SS_TAP(X_A)) SS_DELAY(100) SS_LGUI(SS_TAP(X_V)) SS_DELAY(100) SS_TAP(X_ENTER));
     }
     break;
-    case ST_MACRO_1:
+    case ST_MACRO_GOOGLE:
     if (record->event.pressed) {
       SEND_STRING(SS_LALT(SS_LGUI(SS_TAP(X_SPACE))) SS_DELAY(100) SS_TAP(X_G) SS_DELAY(100) SS_TAP(X_SPACE));
     }
     break;
-    case ST_MACRO_2:
+    case ST_MACRO_GOLINK:
     if (record->event.pressed) {
       SEND_STRING(SS_LALT(SS_LGUI(SS_TAP(X_SPACE))) SS_DELAY(100) SS_TAP(X_G) SS_DELAY(100) SS_TAP(X_O) SS_DELAY(100) SS_TAP(X_SPACE));
     }
     break;
-    case ST_MACRO_3:
+    case ST_MACRO_DICT:
     if (record->event.pressed) {
-      SEND_STRING(SS_LALT(SS_LGUI(SS_TAP(X_SPACE))) SS_DELAY(100) SS_TAP(X_D) SS_DELAY(100) SS_TAP(X_SPACE));
+      SEND_STRING(SS_LALT(SS_LGUI(SS_TAP(X_SPACE))) SS_DELAY(100) SS_TAP(X_D) SS_TAP(X_SPACE) SS_DELAY(100) SS_LGUI(SS_TAP(X_V)) SS_DELAY(100) SS_TAP(X_ENTER));
     }
     break;
-    case ST_MACRO_4:
+    case ST_MACRO_CUR_INTELLIJ:
     if (record->event.pressed) {
       SEND_STRING(SS_LALT(SS_TAP(X_F1)) SS_DELAY(100) SS_TAP(X_1));
     }
     break;
+    case ST_MACRO_IN_NEW_TAB:
+    if (record->event.pressed) {
+        SEND_STRING(SS_LGUI(SS_TAP(X_C)) SS_DELAY(100) SS_LGUI(SS_TAP(X_T)) SS_DELAY(200) SS_LGUI(SS_TAP(X_V))  SS_DELAY(100) SS_TAP(X_ENTER));
+    }
+    break;
+    // case ST_MACRO_SQL_SELECT:
+    // if (record->event.pressed) {
+    //     SEND_STRING("SELECT *\nFROM \nWHERE ;" SS_TAP(X_UP));
+    // }
+    // break;
     case MAC_MISSION_CONTROL:
       HCS(0x29F);
-
     case RGB_SLD:
       if (record->event.pressed) {
         rgblight_mode(1);
