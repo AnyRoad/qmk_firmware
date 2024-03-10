@@ -12,7 +12,7 @@ enum custom_keycodes {
   ST_MACRO_CUR_INTELLIJ,
   ST_MACRO_IN_NEW_TAB,
   MAC_MISSION_CONTROL,
-  //ST_MACRO_SQL_SELECT,
+  ST_MACRO_SQL_SELECT,
 };
 
 enum tap_dance_codes {
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [MACROS] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                            KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_SQL_SELECT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                            KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -212,13 +212,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING(SS_LGUI(SS_TAP(X_C)) SS_DELAY(100) SS_LGUI(SS_TAP(X_T)) SS_DELAY(200) SS_LGUI(SS_TAP(X_V))  SS_DELAY(100) SS_TAP(X_ENTER));
     }
     break;
-    // case ST_MACRO_SQL_SELECT:
-    // if (record->event.pressed) {
-    //     SEND_STRING("SELECT *\nFROM \nWHERE ;" SS_TAP(X_UP));
-    // }
-    // break;
     case MAC_MISSION_CONTROL:
       HCS(0x29F);
+      break;
+    case ST_MACRO_SQL_SELECT:
+    if (record->event.pressed) {
+        SEND_STRING("SELECT *" SS_DELAY(100)  SS_TAP(X_ENTER) "FROM " SS_DELAY(100)  SS_TAP(X_ENTER) "WHERE ;" SS_DELAY(100)  SS_TAP(X_UP));
+    }
+    break;
     case RGB_SLD:
       if (record->event.pressed) {
         rgblight_mode(1);
@@ -702,7 +703,7 @@ tap_dance_action_t tap_dance_actions[] = {
 //**************** tri-state layer *********************//
 // 
 layer_state_t layer_state_set_user(layer_state_t state) {
-   return update_tri_layer_state(state, 3, 4, 5);
+   return update_tri_layer_state(state, CONTROLS, INTELLIJ, MACROS);
 }
 
 void leader_start_user(void) {
