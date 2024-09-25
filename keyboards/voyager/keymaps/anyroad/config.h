@@ -43,3 +43,5 @@
 
 // achordion settings
 #define ACHORDION_STREAK
+
+#define MAX_DEFERRED_EXECUTORS 10

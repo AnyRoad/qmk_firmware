@@ -1,6 +1,5 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
-#include "achordion.h"
 #define MOON_LED_LEVEL LED_LEVEL
 
 enum custom_keycodes {
@@ -13,7 +12,24 @@ enum custom_keycodes {
   ST_MACRO_IN_NEW_TAB,
   MAC_MISSION_CONTROL,
   ST_MACRO_SQL_SELECT,
+
+  SMTD_KEYCODES_BEGIN,
+  CKC_Z,
+  CKC_D,
+  CKC_F,
+  CKC_J,
+  CKC_K,
+  CKC_SLASH,
+  CKC_BSPC,
+  CKC_SPACE,
+  CKC_TAB,
+  CKC_ENTER,
+  CKC_DELETE,
+
+  SMTD_KEYCODES_END,
 };
+
+#include "sm_td.h"
 
 enum tap_dance_codes {
   DANCE_0,
@@ -43,23 +59,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [MAIN] = LAYOUT_voyager(
     LGUI(LCTL(LSFT(KC_4))),KC_1,    KC_2,           KC_3,           KC_4,           KC_5,                                           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           QK_LEAD,        
     KC_ESCAPE,      KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           TD(DANCE_0),    
-    TT(NAVIGATION), KC_A,           KC_S,           MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F),KC_G,                                     KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),KC_L,     KC_SCLN,        LGUI(KC_SPACE), 
-    KC_LEFT_SHIFT,  MT(MOD_LCTL, KC_Z),KC_X,        KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         MT(MOD_RCTL, KC_SLASH),KC_RIGHT_SHIFT, 
-                                                    MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ,KC_ENTER),                                 LT(CONTROLS,KC_TAB),   LT(SYMBOLS,KC_SPACE)
+    TT(NAVIGATION), KC_A,           KC_S,           CKC_D,          CKC_F,          KC_G,                                           KC_H,           CKC_J,          CKC_K,          KC_L,           KC_SCLN,        LGUI(KC_SPACE), 
+    KC_LEFT_SHIFT,  CKC_Z,          KC_X,           KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         CKC_SLASH,      KC_RIGHT_SHIFT, 
+                                                                    CKC_BSPC,       CKC_ENTER,                                      CKC_TAB,        CKC_SPACE
   ),
   [NAVIGATION] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,                                          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_IN_NEW_TAB,                            LGUI(KC_LEFT),  KC_END,         KC_HOME,        LGUI(KC_RIGHT), KC_NO,          KC_F12,         
-    KC_TRANSPARENT, LGUI(KC_A),     KC_TRANSPARENT, ST_MACRO_DICT,  ST_MACRO_SEARCH,ST_MACRO_GOOGLE,                                KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     TD(DANCE_1),    ST_MACRO_GOLINK,                                LALT(KC_LEFT),  KC_PGDN,        KC_PAGE_UP,     LALT(KC_RIGHT), KC_NO,          KC_TRANSPARENT, 
-                                                    KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_IN_NEW_TAB,                            LGUI(KC_LEFT),  LGUI(KC_DOWN),  LGUI(KC_UP),    LGUI(KC_RIGHT), KC_NO,          KC_F12,         
+    KC_TRANSPARENT, LGUI(KC_A),     LALT(KC_UP),    ST_MACRO_DICT,  ST_MACRO_SEARCH,ST_MACRO_GOOGLE,                                KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     TD(DANCE_1),    KC_TRANSPARENT,                                 LALT(KC_LEFT),  KC_PGDN,        KC_PAGE_UP,     LALT(KC_RIGHT), KC_NO,          KC_TRANSPARENT, 
+                                                                    KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [SYMBOLS] = LAYOUT_voyager(
     KC_TILD,        KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,                                          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
     KC_TRANSPARENT, KC_EXLM,        KC_AT,          KC_HASH,        KC_DLR,         KC_PERC,                                        KC_CIRC,        KC_AMPR,        KC_ASTR,        KC_LPRN,        KC_RPRN,        KC_F12,         
     QK_LLCK,        KC_GRAVE,       KC_QUOTE,       TD(DANCE_2),    KC_PLUS,        KC_LBRC,                                        KC_RBRC,        KC_MINUS,       TD(DANCE_4),    KC_EQUAL,       KC_COLN,        KC_DQUO,        
     KC_TRANSPARENT, TD(DANCE_3),    KC_BSLS,        KC_SLASH,       KC_TRANSPARENT, KC_LCBR,                                        KC_RCBR,        KC_TRANSPARENT, KC_LABK,        KC_RABK,        TD(DANCE_5),    KC_TRANSPARENT, 
-                                                    MT(MOD_LGUI, KC_DELETE),KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
+                                                                    CKC_DELETE,     KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [CONTROLS] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT,  KC_TRANSPARENT, KC_TRANSPARENT,     LGUI(LCTL(LSFT(KC_4))), LGUI(LCTL(LSFT(KC_5))),            KC_TRANSPARENT,             KC_TRANSPARENT,      KC_TRANSPARENT,  KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
@@ -179,8 +195,26 @@ bool rgb_matrix_indicators_user(void) {
   return true;
 }
 
+void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
+    switch (keycode) {
+        SMTD_LT(CKC_TAB, KC_TAB, CONTROLS);
+        SMTD_LT(CKC_SPACE, KC_SPACE, SYMBOLS);
+        SMTD_LT(CKC_ENTER,KC_ENTER, INTELLIJ);
+
+        SMTD_MT(CKC_D, KC_D, KC_LEFT_ALT);
+        SMTD_MT(CKC_F, KC_F, KC_LEFT_GUI);
+        SMTD_MT(CKC_J, KC_J, KC_RIGHT_GUI);
+        SMTD_MT(CKC_K, KC_K, KC_RIGHT_ALT);
+        SMTD_MT(CKC_Z, KC_Z, KC_LEFT_CTRL);
+        SMTD_MT(CKC_BSPC, KC_BSPC, KC_LEFT_GUI);
+        SMTD_MT(CKC_SLASH, KC_SLASH, KC_RIGHT_CTRL);
+        SMTD_MT(CKC_DELETE, KC_DELETE, KC_LEFT_GUI);
+    } // end of switch (keycode)
+} // end of on_smtd_action function
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_achordion(keycode, record)) { return false; }
+  // if (!process_achordion(keycode, record)) { return false; }
+  if (!process_smtd(keycode, record)) { return false; }
   switch (keycode) {
     case ST_MACRO_SEARCH:
     if (record->event.pressed) {
@@ -229,9 +263,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void matrix_scan_user(void) {
-  achordion_task();
-}
+// void matrix_scan_user(void) {
+//   achordion_task();
+// }
 
 typedef struct {
     bool is_press_action;
