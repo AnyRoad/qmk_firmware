@@ -258,6 +258,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         debug_charybdis_config_to_console(&g_charybdis_config);
         return false;
     }
+    
+    // dprintf("process_record_kb keycode=%d \n", keycode);
+    // dprintf("process_record_kb DRAGSCROLL_MODE=%d \n", DRAGSCROLL_MODE);
+
 #    ifdef POINTING_DEVICE_ENABLE
 #        ifndef NO_CHARYBDIS_KEYCODES
     switch (keycode) {
