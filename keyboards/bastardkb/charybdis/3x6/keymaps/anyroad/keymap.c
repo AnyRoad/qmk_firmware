@@ -25,6 +25,7 @@ enum custom_keycodes {
   ST_MACRO_CUR_INTELLIJ,
   ST_MACRO_IN_NEW_TAB,
   MAC_MISSION_CONTROL,
+  TOGGLE_AUTO_MOUSE,
 };
 
 enum tap_dance_codes {
@@ -38,7 +39,8 @@ enum tap_dance_codes {
   DC_VOL_UP_MUTE,
   DC_COMMIT_PUSH,
   DC_FIND_CLASS_FILE,
-  DC_G_DRAG_SCROLL
+  DC_G_DRAG_SCROLL,
+  DC_BTN1_BTN2
 };
 
 enum LAYERS {
@@ -61,9 +63,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮ ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
        KC_PRTSCR,          KC_Q,              KC_W,               KC_E,                KC_R,               KC_T,                     KC_Y,               KC_U,              KC_I,              KC_O,                KC_P,                TD(DC_BRACETS),
   // ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-       LT(MOUSE,KC_ESCAPE),          KC_A,              KC_S,               MT(MOD_LALT, KC_D),  MT(MOD_LGUI, KC_F), KC_G,                     KC_H,               MT(MOD_RGUI, KC_J), MT(MOD_RALT, KC_K), KC_L,              KC_SCLN,             LGUI(KC_SPACE),
+       KC_ESC,             KC_A,              KC_S,               MT(MOD_LALT, KC_D),  MT(MOD_LGUI, KC_F), TD(DC_G_DRAG_SCROLL),     KC_H,               MT(MOD_RGUI, KC_J), MT(MOD_RALT, KC_K), KC_L,              KC_SCLN,             LGUI(KC_SPACE),
   // ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-       KC_LSFT,            MT(MOD_LCTL, KC_Z), KC_X,              KC_C,                KC_V,               KC_B,                     KC_N,               KC_M,              KC_COMM,           KC_DOT,              MT(MOD_RCTL, KC_SLASH), KC_RSFT,
+       KC_LSFT,            MT(MOD_LCTL, KC_Z), KC_X,              KC_C,                KC_V,               KC_B,                     KC_N,               KC_M,              LT(MOUSE,KC_COMM), KC_DOT,              MT(MOD_RCTL, KC_SLASH), KC_RSFT,
   // ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
                                                                   TT(NAVIGATION),   MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ,KC_ENTER),     LT(NUM_FUNC,KC_TAB),   LT(SYMBOLS,KC_SPACE)
   //                            ╰───────────────────────────────────────────────────────────────────────────────────────────────╯ ╰──────────────────────────────────────────────╯
@@ -144,20 +146,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [MOUSE] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       QK_BOOT,  KC_NO, KC_NO, KC_NO, DPI_RMOD, S_D_RMOD,       S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX,  XXXXXXX, QK_BOOT,
+       QK_BOOT, TOGGLE_AUTO_MOUSE, KC_NO, KC_NO, DPI_RMOD, S_D_RMOD,       S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX,  XXXXXXX, QK_BOOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       TG(MOUSE), KC_NO, KC_NO, KC_LALT, KC_LGUI, DRGSCRL,  DRG_TOG, KC_RGUI, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX,
+       KC_NO, TG(MOUSE), KC_NO, KC_LALT, KC_LGUI, DRGSCRL,      DRG_TOG, KC_RGUI, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_LSFT, KC_LCTL, LGUI(KC_X), LGUI(KC_C), TD(DC_COPY_OR_NO_FORMAT), SNIPING,    SNIPING, XXXXXXX, XXXXXXX, XXXXXXX, KC_RCTL, KC_RSFT,
+       KC_LSFT, KC_LCTL, LGUI(KC_X), LGUI(KC_C), TD(DC_COPY_OR_NO_FORMAT), SNIPING,    LGUI(KC_BTN1), TD(DC_BTN1_BTN2), XXXXXXX, DRGSCRL, KC_RCTL, KC_RSFT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                 KC_BTN2,  MT(MOD_LGUI, KC_BSPC),  KC_BTN1,        KC_BTN3, KC_BTN1
+                 KC_BTN2,  MT(MOD_LGUI, KC_BSPC), KC_ENTER,     LGUI(KC_PMNS), LGUI(KC_PPLS)
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 };
 // clang-format on
-
 const uint16_t PROGMEM combo_two_shifts[] = {KC_LEFT_SHIFT, KC_RIGHT_SHIFT, COMBO_END};
-const uint16_t PROGMEM combon_g_h_mouse[] = {KC_G, KC_H, COMBO_END};
+const uint16_t PROGMEM combon_g_h_mouse[] = {KC_R, KC_T, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_two_shifts, CW_TOGG),
@@ -186,6 +187,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM + 50;
         case TD(DC_QUEST_CTRL):
             return TAPPING_TERM + 50;
+        case LT(MOUSE, KC_COMM):
+            return TAPPING_TERM - 30;
         default:
             return TAPPING_TERM;
     }
@@ -228,6 +231,37 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
     { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
 
 
+void tap_dance_tap_hold_drag_finished(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (state->pressed) {
+        if (state->count == 1
+#ifndef PERMISSIVE_HOLD
+            && !state->interrupted
+#endif
+        ) {
+            charybdis_set_pointer_dragscroll_enabled(true);
+            tap_hold->held = tap_hold->hold;
+        } else {
+            register_code16(tap_hold->tap);
+            tap_hold->held = tap_hold->tap;
+        }
+    }
+}
+
+void tap_dance_tap_hold_drag_reset(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (tap_hold->held) {
+        charybdis_set_pointer_dragscroll_enabled(false);
+        tap_hold->held = 0;
+    }
+}
+
+#define ACTION_TAP_DANCE_DRAG_TAP_HOLD(tap, hold) \
+    { .fn = {NULL, tap_dance_tap_hold_drag_finished, tap_dance_tap_hold_drag_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
+
+
 tap_dance_action_t tap_dance_actions[] = {
     [DC_BRACETS] = ACTION_TAP_DANCE_TAP_HOLD(KC_LBRC, KC_RBRC),
     [DC_COPY_OR_NO_FORMAT] = ACTION_TAP_DANCE_TAP_HOLD(LGUI(KC_V), LALT(LGUI(LSFT(KC_V)))),
@@ -239,13 +273,18 @@ tap_dance_action_t tap_dance_actions[] = {
     [DC_VOL_UP_MUTE] = ACTION_TAP_DANCE_TAP_HOLD(KC_AUDIO_VOL_UP, KC_AUDIO_MUTE),
     [DC_COMMIT_PUSH] = ACTION_TAP_DANCE_TAP_HOLD(LGUI(KC_K), LGUI(LSFT(KC_K))),
     [DC_FIND_CLASS_FILE] = ACTION_TAP_DANCE_TAP_HOLD(LGUI(KC_N), LGUI(LSFT(KC_N))),
-    [DC_G_DRAG_SCROLL] = ACTION_TAP_DANCE_TAP_HOLD(KC_G, DRGSCRL),
+    [DC_BTN1_BTN2] = ACTION_TAP_DANCE_TAP_HOLD(KC_BTN1, KC_BTN2),
+    [DC_G_DRAG_SCROLL] = ACTION_TAP_DANCE_DRAG_TAP_HOLD(KC_G, DRAGSCROLL_MODE),
 };
+
+bool enableAchordion = true;
+bool auto_mouse_tg_off = true;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   tap_dance_action_t *action;
-
-  if (!process_achordion(keycode, record)) { return false; }
+  if (enableAchordion) {
+     if (!process_achordion(keycode, record)) { return false; }
+  }
   switch (keycode) {
     case ST_MACRO_SEARCH:
     if (record->event.pressed) {
@@ -290,12 +329,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TD(DC_VOL_UP_MUTE): 
     case TD(DC_COMMIT_PUSH): 
     case TD(DC_FIND_CLASS_FILE): 
+    case TD(DC_BTN1_BTN2): 
     case TD(DC_G_DRAG_SCROLL): 
      action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
      if (!record->event.pressed && action->state.count && !action->state.finished) {
           tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
           tap_code16(tap_hold->tap);
      }
+     break;
+    case TOGGLE_AUTO_MOUSE:
+        if (record->event.pressed) {
+            auto_mouse_tg_off = !get_auto_mouse_enable();
+            auto_mouse_layer_off();
+            set_auto_mouse_enable(auto_mouse_tg_off);
+        }
+        return false;
+        break;
   }
   return true;
 }
@@ -303,7 +352,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // static uint16_t auto_pointer_layer_timer = 0;
 
 void matrix_scan_user(void) {
-  achordion_task();
+    if (enableAchordion) {
+        achordion_task();
+    }
 //   if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
 //         auto_pointer_layer_timer = 0;
 //         layer_off(MOUSE);
@@ -328,12 +379,35 @@ layer_state_t layer_state_set_user(layer_state_t state) {
    //dprintf("layer_state_set_user: state after EXTRAS=%d \n", state);
    state = update_tri_layer_state(state, SYMBOLS, INTELLIJ, CONTROLS);
    //dprintf("layer_state_set_user: final state=%d \n", state);
+   enableAchordion = IS_LAYER_ON(MOUSE);
    return state;
 }
 
 void pointing_device_init_user(void) {
-    //set_auto_mouse_layer(MOUSE); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
-    //set_auto_mouse_enable(true);         // always required before the auto mouse feature will work
+    set_auto_mouse_layer(MOUSE); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
+    // set_auto_mouse_enable(true);         // always required before the auto mouse feature will work
+}
+
+bool is_mouse_record_user(uint16_t keycode, keyrecord_t* record) {
+    switch(keycode) {
+        case POINTER_DEFAULT_DPI_REVERSE:
+            return true;
+        case POINTER_SNIPING_DPI_FORWARD:
+            return true;
+        case POINTER_SNIPING_DPI_REVERSE:
+            return true;
+        case SNIPING_MODE:
+            return true;
+        case SNIPING_MODE_TOGGLE:
+            return true;
+        case DRAGSCROLL_MODE:
+            return true;
+        case DRAGSCROLL_MODE_TOGGLE:
+            return true;
+        default:
+            return false;
+    }
+    return false;
 }
 
 void leader_start_user(void) {

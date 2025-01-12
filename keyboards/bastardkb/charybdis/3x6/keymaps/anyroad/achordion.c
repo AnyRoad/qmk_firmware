@@ -274,7 +274,13 @@ __attribute__((weak)) bool achordion_chord(uint16_t tap_hold_keycode,
     if (other_keycode == KC_C || other_keycode == KC_R || other_keycode == KC_D || other_keycode == KC_V) {
       return true;
     }
-  }  
+  } 
+
+  if (tap_hold_keycode == LT(7,KC_COMM)) {
+    if (other_keycode == KC_M || other_keycode == KC_DOT) {
+      return true;
+    }
+  } 
 
   return achordion_opposite_hands(tap_hold_record, other_record);
 }
