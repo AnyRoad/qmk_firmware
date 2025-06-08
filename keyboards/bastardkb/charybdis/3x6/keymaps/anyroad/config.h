@@ -38,7 +38,7 @@
 #define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 200
 #define CHARYBDIS_MINIMUM_SNIPING_DPI     400
 #define CHARYBDIS_SNIPING_DPI_CONFIG_STEP 100
-#define CHARYBDIS_DRAGSCROLL_DPI          60
+#define CHARYBDIS_DRAGSCROLL_DPI          30
 
 #define COMBO_COUNT 2
 #define HCS(report) host_consumer_send(record->event.pressed ? report : 0); return false
@@ -48,10 +48,11 @@
 #define QUICK_TAP_TERM 0
 #define TAPPING_TOGGLE 1
 #define PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD_PER_KEY
 
 // activate the leader key
 #define LEADER_PER_KEY_TIMING
-#define LEADER_TIMEOUT 300
+#define LEADER_TIMEOUT 600
 
 // achordion settings
 #define ACHORDION_STREAK

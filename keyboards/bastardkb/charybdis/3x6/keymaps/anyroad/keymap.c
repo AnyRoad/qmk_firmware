@@ -61,11 +61,11 @@ enum LAYERS {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [MAIN] = LAYOUT(
   // ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮ ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-       KC_PRTSCR,          KC_Q,              KC_W,               KC_E,                KC_R,               KC_T,                     KC_Y,               KC_U,              KC_I,              KC_O,                KC_P,                TD(DC_BRACETS),
+       KC_PRTSCR,          KC_Q,              KC_W,               KC_E,                KC_R,               KC_T,                     KC_Y,               KC_U,              KC_I,              KC_O,                KC_P,                QK_LEAD,
   // ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-       KC_ESC,             KC_A,              KC_S,               MT(MOD_LALT, KC_D),  MT(MOD_LGUI, KC_F), TD(DC_G_DRAG_SCROLL),     KC_H,               MT(MOD_RGUI, KC_J), MT(MOD_RALT, KC_K), KC_L,              KC_SCLN,             LGUI(KC_SPACE),
+       KC_ESC,             LT(MOUSE, KC_A),              KC_S,               MT(MOD_LALT, KC_D),  MT(MOD_LGUI, KC_F), TD(DC_G_DRAG_SCROLL),     KC_H,               MT(MOD_RGUI, KC_J), MT(MOD_RALT, KC_K), KC_L,              KC_SCLN,             LGUI(KC_SPACE),
   // ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-       KC_LSFT,            MT(MOD_LCTL, KC_Z), KC_X,              KC_C,                KC_V,               KC_B,                     KC_N,               KC_M,              LT(MOUSE,KC_COMM), KC_DOT,              MT(MOD_RCTL, KC_SLASH), KC_RSFT,
+       KC_LSFT,            MT(MOD_LCTL, KC_Z), KC_X,              KC_C,                KC_V,               KC_B,                     KC_N,               KC_M,              KC_COMM,           KC_DOT,              MT(MOD_RCTL, KC_SLASH), KC_RSFT,
   // ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤ ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
                                                                   TT(NAVIGATION),   MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ,KC_ENTER),     LT(NUM_FUNC,KC_TAB),   LT(SYMBOLS,KC_SPACE)
   //                            ╰───────────────────────────────────────────────────────────────────────────────────────────────╯ ╰──────────────────────────────────────────────╯
@@ -146,13 +146,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [MOUSE] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       QK_BOOT, TOGGLE_AUTO_MOUSE, KC_NO, KC_NO, DPI_RMOD, S_D_RMOD,       S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX,  XXXXXXX, QK_BOOT,
+       QK_BOOT, DPI_RMOD, S_D_RMOD, KC_LGUI, KC_BTN1, KC_BTN2,  S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX,  TOGGLE_AUTO_MOUSE, QK_BOOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_NO, TG(MOUSE), KC_NO, KC_LALT, KC_LGUI, DRGSCRL,      DRG_TOG, KC_RGUI, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_LSFT, KC_LCTL, LGUI(KC_X), LGUI(KC_C), TD(DC_COPY_OR_NO_FORMAT), SNIPING,    LGUI(KC_BTN1), TD(DC_BTN1_BTN2), XXXXXXX, DRGSCRL, KC_RCTL, KC_RSFT,
+       KC_LSFT, KC_LCTL, LGUI(KC_X), LGUI(KC_C), TD(DC_COPY_OR_NO_FORMAT), SNIPING,    XXXXXXX, XXXXXXX, SNIPING, DRGSCRL, KC_RCTL, KC_RSFT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                 KC_BTN2,  MT(MOD_LGUI, KC_BSPC), KC_ENTER,     LGUI(KC_PMNS), LGUI(KC_PPLS)
+                                 KC_BTN2, KC_BSPC, KC_ENTER,     LGUI(KC_PMNS), LGUI(KC_PPLS)
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 };
@@ -187,10 +187,21 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM + 50;
         case TD(DC_QUEST_CTRL):
             return TAPPING_TERM + 50;
-        case LT(MOUSE, KC_COMM):
-            return TAPPING_TERM - 30;
+        case TD(DC_G_DRAG_SCROLL):
+            return TAPPING_TERM + 50;
         default:
             return TAPPING_TERM;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case TT(NAVIGATION):
+        case MT(MOD_LGUI, KC_BSPC):
+            // immediately select the hold action when another key is tapped
+            return true;
+        default:
+            return false;
     }
 }
 
@@ -236,9 +247,9 @@ void tap_dance_tap_hold_drag_finished(tap_dance_state_t *state, void *user_data)
 
     if (state->pressed) {
         if (state->count == 1
-#ifndef PERMISSIVE_HOLD
+//#ifndef PERMISSIVE_HOLD
             && !state->interrupted
-#endif
+//#endif
         ) {
             charybdis_set_pointer_dragscroll_enabled(true);
             tap_hold->held = tap_hold->hold;

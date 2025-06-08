@@ -274,13 +274,7 @@ __attribute__((weak)) bool achordion_chord(uint16_t tap_hold_keycode,
     if (other_keycode == KC_C || other_keycode == KC_R || other_keycode == KC_D || other_keycode == KC_V) {
       return true;
     }
-  } 
-
-  if (tap_hold_keycode == LT(7,KC_COMM)) {
-    if (other_keycode == KC_M || other_keycode == KC_DOT) {
-      return true;
-    }
-  } 
+  }
 
   return achordion_opposite_hands(tap_hold_record, other_record);
 }
@@ -295,6 +289,11 @@ __attribute__((weak)) uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
       // dprintf("no timeout! \n");
       return 0;  // Bypass Achordion for these keys.
   }
+
+  if (tap_hold_keycode == LT(7, KC_A)) {
+    return 400;
+  }
+
   // dprintf("timeout applied for key = %d \n", tap_hold_keycode);
   return 800;
 }
