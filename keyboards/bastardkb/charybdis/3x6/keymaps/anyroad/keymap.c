@@ -288,7 +288,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [DC_G_DRAG_SCROLL] = ACTION_TAP_DANCE_DRAG_TAP_HOLD(KC_G, DRAGSCROLL_MODE),
 };
 
-bool enableAchordion = true;
+bool enableAchordion = false;
 bool auto_mouse_tg_off = true;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -390,7 +390,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
    //dprintf("layer_state_set_user: state after EXTRAS=%d \n", state);
    state = update_tri_layer_state(state, SYMBOLS, INTELLIJ, CONTROLS);
    //dprintf("layer_state_set_user: final state=%d \n", state);
-   enableAchordion = IS_LAYER_ON(MOUSE);
+   // enableAchordion = IS_LAYER_ON(MOUSE);
    return state;
 }
 

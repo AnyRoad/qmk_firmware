@@ -55,4 +55,6 @@
 #define LEADER_TIMEOUT 600
 
 // achordion settings
-#define ACHORDION_STREAK
+// #define ACHORDION_STREAK
+
+#define FLOW_TAP_TERM 150
