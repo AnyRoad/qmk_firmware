@@ -10,5 +10,3 @@ LAYER_LOCK_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
 POINTING_DEVICE_DRIVER = navigator_trackball
 LEADER_ENABLE = yes
-
-test with typing in new layout!!!!1111
