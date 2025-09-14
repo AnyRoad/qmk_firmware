@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_PRTSCR,      KC_Q,            KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           QK_LEAD,    
     KC_ESCAPE,      LT(MOUSE, KC_A), KC_S,           MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F), DUAL_FUNC_0,                             KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),KC_L,     KC_SCLN,        LGUI(KC_SPACE), 
     KC_LEFT_SHIFT,  MT(MOD_LCTL, KC_Z),KC_X,         KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         MT(MOD_RCTL, KC_SLASH),KC_RIGHT_SHIFT, 
-    KC_NO,          KC_NO,           KC_NO,          KC_NO,          TT(NAVIGATION), KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,        CW_TOGG,        
+    KC_NO,          KC_NO,           KC_NO,          KC_ESCAPE,      TT(NAVIGATION), KC_NO,                                          KC_NO,          KC_NO,          LGUI(KC_SPACE), MOD_LCTL,       KC_NO,          KC_NO,        
                                                     MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ, KC_ENTER),                                    LT(NUM_FUNC, KC_TAB),  LT(SYMBOLS, KC_SPACE)
   ),
   [NUM_FUNC] = LAYOUT_voyager(
