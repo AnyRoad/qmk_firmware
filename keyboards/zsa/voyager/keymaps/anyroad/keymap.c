@@ -56,14 +56,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_PRTSCR,      KC_Q,            KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           QK_LEAD,    
     KC_ESCAPE,      LT(MOUSE, KC_A), KC_S,           MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F), DUAL_FUNC_0,                             KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),KC_L,     KC_SCLN,        LGUI(KC_SPACE), 
     KC_LEFT_SHIFT,  MT(MOD_LCTL, KC_Z),KC_X,         KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         MT(MOD_RCTL, KC_SLASH),KC_RIGHT_SHIFT, 
-    KC_NO,          KC_NO,           KC_NO,          KC_ESCAPE,      TT(NAVIGATION), KC_NO,                                          KC_NO,          KC_NO,          LGUI(KC_SPACE), MOD_LCTL,       KC_NO,          KC_NO,        
+    KC_NO,          KC_NO,           KC_NO,          KC_ESCAPE,      MO(NAVIGATION), KC_NO,                                          KC_NO,          LGUI(KC_SPACE), MOD_LCTL,       KC_NO,          KC_NO,          KC_NO,        
                                                     MT(MOD_LGUI, KC_BSPC),LT(INTELLIJ, KC_ENTER),                                    LT(NUM_FUNC, KC_TAB),  LT(SYMBOLS, KC_SPACE)
   ),
   [NUM_FUNC] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,                                          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
     QK_LLCK,        KC_1,           KC_2,           MT(MOD_LALT, KC_3),MT(MOD_LGUI, KC_4),           KC_5,                          KC_6,           MT(MOD_RGUI, KC_7),MT(MOD_RALT, KC_8),           KC_9,           KC_0,           KC_F12,        
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,    KC_TRNS,                                                     KC_TRNS,  KC_TRNS,        KC_TRNS,     KC_TRNS, KC_TRNS,          KC_TRNS, 
+    KC_TRNS, KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,    KC_TRNS,                                                            KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS,        KC_TRNS, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [NAVIGATION] = LAYOUT_voyager(
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [INTELLIJ] = LAYOUT_voyager(
     KC_TRNS, KC_TRNS, LALT(LCTL(KC_V)),LALT(KC_F12),   LCTL(LSFT(KC_R)),LGUI(LCTL(LSFT(KC_LEFT))),                                LGUI(LCTL(LSFT(KC_RIGHT))),LALT(LCTL(LSFT(KC_V))),LALT(KC_F7),    LALT(LCTL(LSFT(KC_O))),LALT(LCTL(LSFT(KC_P))),LGUI(KC_F12),   
     QK_LLCK, KC_TRNS, LALT(LSFT(KC_UP)),ST_MACRO_CUR_INTELLIJ,     LCTL(LSFT(KC_F)),LALT(LGUI(KC_LEFT)),                                LALT(LGUI(KC_RIGHT)),LCTL(LSFT(KC_J)),DUAL_FUNC_10,   LALT(LGUI(KC_L)),KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRNS, KC_TRNS, LALT(LSFT(KC_DOWN)),LALT(LGUI(KC_C)),LALT(LGUI(KC_V)),LALT(LGUI(KC_N)),                                DUAL_FUNC_11,   LALT(LGUI(KC_M)),LALT(LCTL(LSFT(KC_COMMA))),KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRNS, LGUI(LALT(KC_LBRC)), LALT(LSFT(KC_DOWN)),LALT(LGUI(KC_C)),LALT(LGUI(KC_V)),LALT(LGUI(KC_N)),                                DUAL_FUNC_11,   LALT(LGUI(KC_M)),LALT(LCTL(LSFT(KC_COMMA))),KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,          KC_TRNS,          KC_TRNS,                                          KC_TRNS,    KC_TRNS,          KC_TRNS,          KC_TRNS,    KC_TRNS,   KC_TRNS, 
                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -115,7 +115,7 @@ const uint16_t PROGMEM combo0[] = { KC_LEFT_SHIFT, KC_RIGHT_SHIFT, COMBO_END};
 const uint16_t PROGMEM combon_g_h_mouse[] = {KC_R, KC_T, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(combo0, KC_CAPS),
+    COMBO(combo0, CW_TOGG),
     COMBO(combon_g_h_mouse, TG(MOUSE)),
 };
 
@@ -264,16 +264,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Mouse keys with modifiers work inconsistently across operating systems, this makes sure that modifiers are always
     // applied to the mouse key that was pressed.
     if (IS_MOUSE_KEYCODE(QK_MODS_GET_BASIC_KEYCODE(keycode))) {
-    if (record->event.pressed) {
-        add_mods(QK_MODS_GET_MODS(keycode));
-        send_keyboard_report();
-        wait_ms(2);
-        register_code(QK_MODS_GET_BASIC_KEYCODE(keycode));
-        return false;
-      } else {
-        wait_ms(2);
-        del_mods(QK_MODS_GET_MODS(keycode));
-      }
+      if (record->event.pressed) {
+          add_mods(QK_MODS_GET_MODS(keycode));
+          send_keyboard_report();
+          wait_ms(2);
+          register_code(QK_MODS_GET_BASIC_KEYCODE(keycode));
+          return false;
+        } else {
+          wait_ms(2);
+          del_mods(QK_MODS_GET_MODS(keycode));
+        }
     }
     break;
     case ST_MACRO_SEARCH:
